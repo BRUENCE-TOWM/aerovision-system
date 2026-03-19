@@ -97,7 +97,7 @@ aerovision/
 
 ### Python版本
 ```
-Python 3.10.x
+Python 3.10
 ```
 
 ---
@@ -116,7 +116,21 @@ venv\Scripts\activate
 ```bash
 pip install -r requirements.txt
 ```
+### 依赖说明
+项目依赖统一记录在：
 
+```
+requirements.txt
+```
+
+新增依赖请按以下流程：
+
+```bash
+pip install xxx
+pip freeze > requirements.txt
+```
+
+并提交更新后的 requirements 文件
 ---
 
 ### 运行项目
