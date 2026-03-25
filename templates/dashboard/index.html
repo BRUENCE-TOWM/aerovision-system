@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | AeroVision{% endblock %}
+
+{% block content %}
+<section class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+    <div>
+        <span class="badge soft-badge mb-2">Dashboard</span>
+        <h1 class="h2 mb-1">你好，{{ request.user.username }}</h1>
+        <p class="text-secondary mb-0">这里汇总站点的主要工作入口和最近动态。</p>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-dark" href="{% url 'uploads:create' %}">上传文件</a>
+        <a class="btn btn-outline-dark" href="{% url 'feedback:create' %}">提交反馈</a>
+    </div>
+</section>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="metric-card">
+            <span class="metric-label">我的文件</span>
+            <strong>{{ summary.uploads }}</strong>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="metric-card">
+            <span class="metric-label">我的反馈</span>
+            <strong>{{ summary.feedback }}</strong>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="metric-card">
+            <span class="metric-label">已发布公告</span>
+            <strong>{{ summary.announcements }}</strong>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="section-shell h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="h4 mb-0">最近文件</h2>
+                <a class="btn btn-sm btn-outline-dark" href="{% url 'uploads:index' %}">查看全部</a>
+            </div>
+            {% if recent_uploads %}
+                <div class="vstack gap-3">
+                    {% for item in recent_uploads %}
+                        <a class="announcement-link" href="{% url 'uploads:detail' item.pk %}">
+                            <div class="announcement-card">
+                                <div class="d-flex justify-content-between align-items-start gap-3">
+                                    <div>
+                                        <h3 class="h5 mb-1">{{ item.title }}</h3>
+                                        <p class="text-secondary mb-0">{{ item.description|default:"暂无描述" }}</p>
+                                    </div>
+                                    <span class="badge text-bg-light">{{ item.get_status_display }}</span>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p class="mb-3">你还没有上传任何文件。</p>
+                    <a class="btn btn-dark btn-sm" href="{% url 'uploads:create' %}">上传第一个文件</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="section-shell mb-4">
+            <h2 class="h4 mb-3">最新公告</h2>
+            <div
+                hx-get="{% url 'announcement:index' %}"
+                hx-trigger="load"
+                hx-select=".announcement-card"
+                hx-target="this"
+                hx-swap="innerHTML">
+                <div class="placeholder-wave">
+                    <span class="placeholder col-12 mb-2"></span>
+                    <span class="placeholder col-10 mb-2"></span>
+                    <span class="placeholder col-8"></span>
+                </div>
+            </div>
+        </div>
+        <div class="section-shell">
+            <h2 class="h4 mb-3">快捷入口</h2>
+            <div class="d-grid gap-2">
+                <a class="btn btn-outline-dark text-start" href="{% url 'accounts:profile' %}">个人中心</a>
+                <a class="btn btn-outline-dark text-start" href="{% url 'announcement:index' %}">公告列表</a>
+                <a class="btn btn-outline-dark text-start" href="{% url 'feedback:index' %}">反馈列表</a>
+                <a class="btn btn-outline-dark text-start" href="/admin/">后台管理</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

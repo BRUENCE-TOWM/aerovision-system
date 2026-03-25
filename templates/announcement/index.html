@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Announcements | AeroVision{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+    <div>
+        <span class="badge soft-badge mb-2">Announcements</span>
+        <h1 class="h2 mb-1">公告列表</h1>
+        <p class="text-secondary mb-0">这里专门负责公告发布结果的对外展示。</p>
+    </div>
+    <a class="btn btn-outline-dark" href="/admin/feedback/announcement/">后台发布公告</a>
+</div>
+
+<div class="section-shell">
+    {% if announcements %}
+        <div class="vstack gap-3">
+            {% for item in announcements %}
+                <a class="announcement-link" href="{% url 'announcement:detail' item.pk %}">
+                    <div class="announcement-card">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <h2 class="h5 mb-1">{{ item.title }}</h2>
+                                <p class="text-secondary mb-2">
+                                    {{ item.summary|default:item.content|truncatechars:120 }}
+                                </p>
+                                <span class="small text-secondary">{{ item.created_at|date:"Y-m-d H:i" }}</span>
+                            </div>
+                            <span class="badge text-bg-light">公告</span>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p class="mb-0">暂无公告。</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

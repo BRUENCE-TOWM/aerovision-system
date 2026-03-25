@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}About | AeroVision{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="section-shell">
+            <span class="badge soft-badge mb-2">About</span>
+            <h1 class="h2 mb-3">关于项目</h1>
+            <p class="text-secondary">
+                AeroVision 目前采用 Django 作为主框架，以服务端模板渲染为主，Bootstrap 统一页面风格，
+                htmx 只用于少量局部交互增强。
+            </p>
+            <ul class="soft-list">
+                <li>核心模块包含首页、账户、公告、反馈、文件管理。</li>
+                <li>页面先满足可访问、可管理、可继续扩展。</li>
+                <li>后续可以继续接入模型推理、任务流和权限细分。</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

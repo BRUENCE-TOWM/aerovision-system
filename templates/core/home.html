@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block title %}Home | AeroVision{% endblock %}
+
+{% block content %}
+<section class="p-5 rounded-5 hero-panel mb-5">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+            <span class="badge soft-badge mb-3">Django + Templates + Bootstrap + htmx</span>
+            <h1 class="display-5 fw-bold">以 Python 为主导的可管理站点骨架</h1>
+            <p class="lead text-secondary">
+                当前首页承接站点入口、模块导览和最新公告，整体保持简约、温和、可扩展的交互风格。
+            </p>
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-dark" href="{% url 'dashboard:index' %}">进入 Dashboard</a>
+                <a class="btn btn-outline-dark" href="{% url 'accounts:signup' %}">创建账户</a>
+                <a class="btn btn-outline-dark" href="{% url 'announcement:index' %}">查看公告</a>
+            </div>
+            <div class="row g-3 mt-4">
+                <div class="col-sm-6 col-lg-4">
+                    <div class="metric-card">
+                        <span class="metric-label">已发布公告</span>
+                        <strong>{{ public_stats.announcement_count }}</strong>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="metric-card">
+                        <span class="metric-label">文件记录</span>
+                        <strong>{{ public_stats.upload_count }}</strong>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="metric-card">
+                        <span class="metric-label">站点风格</span>
+                        <strong>简约温和</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            {% include "partials/status_panel.html" %}
+        </div>
+    </div>
+</section>
+
+<section class="row g-4 mb-5">
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm h-100 feature-card">
+            <div class="card-body">
+                <h2 class="h5">账户系统</h2>
+                <p class="text-secondary">注册、登录、资料维护与个人中心入口。</p>
+                <a class="link-dark" href="{% url 'accounts:profile' %}">查看个人中心</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm h-100 feature-card">
+            <div class="card-body">
+                <h2 class="h5">工作台</h2>
+                <p class="text-secondary">集中展示上传、公告、反馈等模块摘要。</p>
+                <a class="link-dark" href="{% url 'dashboard:index' %}">进入工作台</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm h-100 feature-card">
+            <div class="card-body">
+                <h2 class="h5">公告反馈</h2>
+                <p class="text-secondary">公告独立展示，反馈单独收集和处理。</p>
+                <a class="link-dark" href="{% url 'announcement:index' %}">打开公告模块</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm h-100 feature-card">
+            <div class="card-body">
+                <h2 class="h5">文件管理</h2>
+                <p class="text-secondary">上传、列表、详情与后续状态追踪骨架。</p>
+                <a class="link-dark" href="{% url 'uploads:index' %}">查看文件管理</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="row g-4">
+    <div class="col-lg-7">
+        <div class="section-shell">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="h4 mb-0">最新公告</h2>
+                <a class="btn btn-sm btn-outline-dark" href="{% url 'announcement:index' %}">全部公告</a>
+            </div>
+            {% if featured_announcements %}
+                <div class="vstack gap-3">
+                    {% for item in featured_announcements %}
+                        <a class="announcement-link" href="{% url 'announcement:detail' item.pk %}">
+                            <div class="announcement-card">
+                                <div class="d-flex justify-content-between gap-3">
+                                    <div>
+                                        <h3 class="h5 mb-1">{{ item.title }}</h3>
+                                        <p class="text-secondary mb-0">{{ item.summary|default:item.content|truncatechars:90 }}</p>
+                                    </div>
+                                    <span class="small text-secondary">{{ item.created_at|date:"Y-m-d" }}</span>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p class="mb-0">暂无已发布公告。你可以先在后台添加内容。</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="section-shell h-100">
+            <h2 class="h4 mb-3">站点说明</h2>
+            <ul class="soft-list">
+                <li>首页承接站点介绍和模块入口。</li>
+                <li>注册登录与资料维护基于 Django Auth。</li>
+                <li>公告、反馈、文件记录均已预留后台管理能力。</li>
+                <li>局部交互由 htmx 增强，不引入重前端框架。</li>
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Announcement | AeroVision{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="section-shell">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <span class="badge soft-badge mb-2">Announcement</span>
+                    <h1 class="h2 mb-1">{{ announcement.title }}</h1>
+                    <p class="text-secondary mb-0">{{ announcement.created_at|date:"Y-m-d H:i" }}</p>
+                </div>
+                <a class="btn btn-outline-dark" href="{% url 'announcement:index' %}">返回公告列表</a>
+            </div>
+            {% if announcement.summary %}
+                <p class="lead text-secondary">{{ announcement.summary }}</p>
+            {% endif %}
+            <div class="announcement-body">{{ announcement.content|linebreaks }}</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

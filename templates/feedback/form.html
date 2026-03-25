@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}New Feedback | AeroVision{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="section-shell">
+            <div class="card-body p-4">
+                <h1 class="h3 mb-2">提交反馈</h1>
+                <p class="text-secondary mb-4">这个页面适合放更完整的反馈表单或联系信息。</p>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-dark">发送</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

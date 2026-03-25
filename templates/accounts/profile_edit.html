@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile | AeroVision{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="section-shell">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 mb-1">编辑个人资料</h1>
+                    <p class="text-secondary mb-0">更新显示名称、联系方式和个人说明。</p>
+                </div>
+                <a class="btn btn-outline-dark" href="{% url 'accounts:profile' %}">返回个人中心</a>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-dark">保存资料</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

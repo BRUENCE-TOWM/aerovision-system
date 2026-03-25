@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}New Upload | AeroVision{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="section-shell">
+            <div class="card-body p-4">
+                <h1 class="h3 mb-2">新建上传</h1>
+                <p class="text-secondary mb-4">这里先完成文件管理骨架，后续可接入校验、异步处理和结果页面。</p>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-dark">提交</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

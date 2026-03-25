@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Uploads | AeroVision{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+    <div>
+        <span class="badge soft-badge mb-2">File Management</span>
+        <h1 class="h2 mb-1">文件管理</h1>
+        <p class="text-secondary mb-0">管理上传记录、查看状态，并为后续模型处理结果留出位置。</p>
+    </div>
+    <a class="btn btn-dark" href="{% url 'uploads:create' %}">新建上传</a>
+</div>
+
+<div class="row g-3 mb-4">
+    {% for item in status_counts %}
+        <div class="col-md-4">
+            <div class="metric-card">
+                <span class="metric-label">{{ item.label }}</span>
+                <strong>{{ item.value }}</strong>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="section-shell">
+    {% if uploads %}
+        <div class="row g-3">
+            {% for item in uploads %}
+                <div class="col-md-6">
+                    <div class="card border-0 shadow-sm h-100 feature-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                                <div>
+                                    <h2 class="h5 mb-1">{{ item.title }}</h2>
+                                    <p class="small text-secondary mb-0">{{ item.created_at|date:"Y-m-d H:i" }}</p>
+                                </div>
+                                <span class="badge text-bg-light">{{ item.get_status_display }}</span>
+                            </div>
+                            <p class="text-secondary">{{ item.description|default:"暂无描述。" }}</p>
+                            <a class="btn btn-sm btn-outline-dark" href="{% url 'uploads:detail' item.pk %}">查看详情</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p class="mb-3">目前还没有文件记录。</p>
+            <a class="btn btn-dark btn-sm" href="{% url 'uploads:create' %}">上传首个文件</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

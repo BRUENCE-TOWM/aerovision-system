@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Login | AeroVision{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm border-0 soft-panel">
+            <div class="card-body p-4">
+                <h1 class="h3 mb-2">登录</h1>
+                <p class="text-secondary mb-4">进入你的工作台、文件记录和反馈入口。</p>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-dark w-100">进入系统</button>
+                </form>
+                <p class="small text-secondary mt-3 mb-0">还没有账户？ <a href="{% url 'accounts:signup' %}">立即注册</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

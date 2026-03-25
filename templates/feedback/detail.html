@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Feedback Detail | AeroVision{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="section-shell">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <span class="badge soft-badge mb-2">{{ feedback_entry.get_status_display }}</span>
+                    <h1 class="h2 mb-1">{{ feedback_entry.name }} / {{ feedback_entry.category }}</h1>
+                    <p class="text-secondary mb-0">{{ feedback_entry.created_at|date:"Y-m-d H:i" }}</p>
+                </div>
+                <div class="d-flex gap-2">
+                    {% if request.user.is_staff %}
+                        <a class="btn btn-outline-dark" href="{% url 'feedback:status' feedback_entry.pk %}">处理状态</a>
+                    {% endif %}
+                    <a class="btn btn-outline-dark" href="{% url 'feedback:index' %}">返回列表</a>
+                </div>
+            </div>
+            <div class="vstack gap-3">
+                <div>
+                    <div class="text-secondary small">提交人邮箱</div>
+                    <div>{{ feedback_entry.email }}</div>
+                </div>
+                <div>
+                    <div class="text-secondary small">反馈内容</div>
+                    <div>{{ feedback_entry.message|linebreaks }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
