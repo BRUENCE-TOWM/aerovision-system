@@ -50,6 +50,40 @@ body.site-shell {
     border-bottom: 1px solid rgba(255, 255, 255, 0.6);
 }
 
+.nav-squares .nav-item {
+    margin-right: 0.15rem;
+}
+
+.nav-square {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.9rem;
+    padding: 0.55rem 0.9rem !important;
+    color: var(--av-ink) !important;
+    background-color: transparent;
+    transition: background-color 180ms ease, color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+.nav-square:hover {
+    background: rgba(184, 109, 82, 0.08);
+    color: var(--av-accent) !important;
+}
+
+.soft-navbar .navbar-nav .nav-link.nav-square-active,
+.soft-navbar .navbar-nav .nav-link.nav-square.active {
+    background-color: #c97754 !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    box-shadow: 0 10px 20px rgba(184, 109, 82, 0.26);
+}
+
+.soft-navbar .navbar-nav .nav-link.nav-square-active:hover,
+.soft-navbar .navbar-nav .nav-link.nav-square.active:hover {
+    background-color: #c97754 !important;
+    color: #ffffff !important;
+}
+
 .footer-shell {
     background: rgba(255, 255, 255, 0.52);
 }

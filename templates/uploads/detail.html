@@ -1,24 +1,24 @@
 {% extends "base.html" %}
 
-{% block title %}Upload Detail | AeroVision{% endblock %}
+{% block title %}任务详情 | 交通场景识别平台{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-start gap-3 mb-4">
     <div>
         <span class="badge soft-badge mb-2">{{ upload.get_status_display }}</span>
         <h1 class="h2 mb-1">{{ upload.title }}</h1>
-        <p class="text-secondary mb-0">{{ upload.description|default:"暂无描述。" }}</p>
+        <p class="text-secondary mb-0">{{ upload.description|default:"暂无任务说明。" }}</p>
     </div>
-    <a class="btn btn-outline-dark" href="{% url 'uploads:index' %}">返回列表</a>
+    <a class="btn btn-outline-dark" href="{% url 'uploads:index' %}">返回任务列表</a>
 </div>
 
 <div class="row g-4">
     <div class="col-lg-8">
         <div class="section-shell">
-            <h2 class="h4 mb-3">文件信息</h2>
+            <h2 class="h4 mb-3">任务信息</h2>
             <div class="vstack gap-3">
                 <div>
-                    <div class="text-secondary small">文件链接</div>
+                    <div class="text-secondary small">原始图像</div>
                     <a href="{{ upload.asset.url }}">{{ upload.asset.name }}</a>
                 </div>
                 <div>
@@ -26,43 +26,47 @@
                     <div>{{ upload.created_at|date:"Y-m-d H:i" }}</div>
                 </div>
                 <div>
-                    <div class="text-secondary small">最后更新</div>
+                    <div class="text-secondary small">最近更新</div>
                     <div>{{ upload.updated_at|date:"Y-m-d H:i" }}</div>
+                </div>
+                <div>
+                    <div class="text-secondary small">识别状态</div>
+                    <div>{{ upload.get_yolo_status_display }}</div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="section-shell">
-            <h2 class="h4 mb-3">后续扩展</h2>
+            <h2 class="h4 mb-3">结果展示预留</h2>
             <ul class="soft-list">
-                <li>处理状态时间线</li>
-                <li>缩略图或预览</li>
-                <li>识别结果摘要</li>
-                <li>管理员批注</li>
+                <li>交通目标识别结果列表</li>
+                <li>场景标签与置信度</li>
+                <li>识别框示意图</li>
+                <li>识别时间与模型版本</li>
             </ul>
         </div>
         <div class="section-shell mt-4">
             <h2 class="h4 mb-3">接口预留</h2>
             <div class="small">
                 <div class="mb-2">
-                    <div class="text-secondary">列表 / 新建</div>
+                    <div class="text-secondary">任务列表与新建</div>
                     <code>{{ api_routes.uploads }}</code>
                 </div>
                 <div class="mb-2">
-                    <div class="text-secondary">详情</div>
+                    <div class="text-secondary">任务详情接口</div>
                     <code>{{ api_routes.detail }}</code>
                 </div>
                 <div class="mb-2">
-                    <div class="text-secondary">YOLO 触发</div>
+                    <div class="text-secondary">识别触发接口</div>
                     <code>{{ api_routes.analyze }}</code>
                 </div>
                 <div>
-                    <div class="text-secondary">YOLO 配置</div>
+                    <div class="text-secondary">模型接口说明</div>
                     <code>{{ api_routes.yolo_info }}</code>
                 </div>
                 <div class="mt-3 text-secondary">
-                    默认模型：{{ yolo_default_model }}
+                    当前默认模型：{{ yolo_default_model }}
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}New Feedback | AeroVision{% endblock %}
+{% block title %}提交反馈 | 交通场景识别平台{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
@@ -8,11 +8,11 @@
         <div class="section-shell">
             <div class="card-body p-4">
                 <h1 class="h3 mb-2">提交反馈</h1>
-                <p class="text-secondary mb-4">这个页面适合放更完整的反馈表单或联系信息。</p>
+                <p class="text-secondary mb-4">如果你在图像识别、结果展示或页面使用过程中遇到问题，可以在这里提交说明。</p>
                 <form method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button type="submit" class="btn btn-dark">发送</button>
+                    <button type="submit" class="btn btn-dark">提交反馈</button>
                 </form>
             </div>
         </div>

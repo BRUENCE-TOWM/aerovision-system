@@ -1,20 +1,23 @@
 {% extends "base.html" %}
 
-{% block title %}Login | AeroVision{% endblock %}
+{% block title %}登录 | 交通场景识别平台{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-6 col-lg-4">
         <div class="card shadow-sm border-0 soft-panel">
-            <div class="card-body p-4">
-                <h1 class="h3 mb-2">登录</h1>
-                <p class="text-secondary mb-4">进入你的工作台、文件记录和反馈入口。</p>
+            <div class="card-body p-4 p-lg-5">
+                <h1 class="h3 mb-2 text-center">登录</h1>
+                <p class="text-secondary text-center mb-4">登录后可提交交通场景识别任务、查看识别结果与处理反馈。</p>
                 <form method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button type="submit" class="btn btn-dark w-100">进入系统</button>
+                    <button type="submit" class="btn btn-dark w-100">进入平台</button>
                 </form>
-                <p class="small text-secondary mt-3 mb-0">还没有账户？ <a href="{% url 'accounts:signup' %}">立即注册</a></p>
+                <div class="d-flex justify-content-between small mt-3">
+                    <a href="{% url 'accounts:signup' %}">立即注册</a>
+                    <a href="{% url 'core:contact' %}">找回密码</a>
+                </div>
             </div>
         </div>
     </div>

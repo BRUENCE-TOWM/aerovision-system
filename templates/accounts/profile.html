@@ -1,38 +1,26 @@
 {% extends "base.html" %}
 
-{% block title %}Profile | AeroVision{% endblock %}
+{% block title %}个人中心 | 交通场景识别平台{% endblock %}
 
 {% block content %}
 <section class="row g-4">
-    <div class="col-lg-4">
-        <div class="card shadow-sm border-0 soft-panel h-100">
-            <div class="card-body">
-                <span class="badge soft-badge mb-3">Profile</span>
-                <h1 class="h3 mb-1">{{ profile.display_name|default:request.user.username }}</h1>
-                <p class="text-secondary">{{ profile.title|default:"尚未填写职位信息" }}</p>
-                <div class="vstack gap-3 small">
-                    <div>
-                        <div class="text-secondary">邮箱</div>
-                        <div>{{ profile.contact_email|default:request.user.email|default:"未填写" }}</div>
-                    </div>
-                    <div>
-                        <div class="text-secondary">单位</div>
-                        <div>{{ profile.organization|default:"未填写" }}</div>
-                    </div>
-                    <div>
-                        <div class="text-secondary">个人简介</div>
-                        <div>{{ profile.bio|default:"这里可以放个人说明、职责和偏好设置。" }}</div>
-                    </div>
-                </div>
-                <a class="btn btn-dark mt-4" href="{% url 'accounts:profile_edit' %}">编辑资料</a>
-                <a class="btn btn-outline-dark mt-2" href="{% url 'accounts:security' %}">安全设置</a>
+    <div class="col-lg-3">
+        <div class="section-shell h-100">
+            <span class="badge soft-badge mb-3">个人中心</span>
+            <h1 class="h4 mb-3">{{ profile.display_name|default:request.user.username }}</h1>
+            <div class="list-group list-group-flush profile-nav">
+                <a class="list-group-item list-group-item-action active" href="{% url 'accounts:profile' %}">资料概览</a>
+                <a class="list-group-item list-group-item-action" href="{% url 'accounts:profile_edit' %}">编辑资料</a>
+                <a class="list-group-item list-group-item-action" href="{% url 'uploads:index' %}">我的任务</a>
+                <a class="list-group-item list-group-item-action" href="{% url 'accounts:security' %}">安全设置</a>
+                <a class="list-group-item list-group-item-action" href="{% url 'feedback:index' %}">我的反馈</a>
             </div>
         </div>
     </div>
-    <div class="col-lg-8">
+    <div class="col-lg-9">
         <div class="section-shell mb-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h2 class="h4 mb-0">账户概览</h2>
+                <h2 class="h4 mb-0">资料概览</h2>
                 <a class="btn btn-sm btn-outline-dark" href="{% url 'dashboard:index' %}">返回工作台</a>
             </div>
             <div class="row g-3">
@@ -44,7 +32,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="metric-card">
-                        <span class="metric-label">加入时间</span>
+                        <span class="metric-label">注册日期</span>
                         <strong>{{ request.user.date_joined|date:"Y-m-d" }}</strong>
                     </div>
                 </div>
@@ -57,12 +45,32 @@
             </div>
         </div>
         <div class="section-shell">
-            <h2 class="h4 mb-3">使用说明</h2>
-            <ul class="soft-list">
-                <li>个人中心主要展示资料、账户信息和后续偏好设置。</li>
-                <li>如果后续加入头像、通知配置、API 密钥等内容，可以继续在这个区域扩展。</li>
-                <li>当前后台管理入口在顶部导航，可直接管理公告、反馈和文件记录。</li>
-            </ul>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="vstack gap-3">
+                        <div>
+                            <div class="text-secondary small">联系邮箱</div>
+                            <div>{{ profile.contact_email|default:request.user.email|default:"未填写" }}</div>
+                        </div>
+                        <div>
+                            <div class="text-secondary small">所属单位</div>
+                            <div>{{ profile.organization|default:"未填写" }}</div>
+                        </div>
+                        <div>
+                            <div class="text-secondary small">岗位信息</div>
+                            <div>{{ profile.title|default:"尚未填写" }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-secondary small mb-2">个人简介</div>
+                    <div>{{ profile.bio|default:"这里可以补充你的职责、研究方向或业务角色。" }}</div>
+                    <div class="d-flex gap-2 mt-4">
+                        <a class="btn btn-dark" href="{% url 'accounts:profile_edit' %}">编辑资料</a>
+                        <a class="btn btn-outline-dark" href="{% url 'accounts:security' %}">安全设置</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

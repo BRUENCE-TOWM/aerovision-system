@@ -1,45 +1,68 @@
 {% extends "base.html" %}
 
-{% block title %}Feedback | AeroVision{% endblock %}
+{% block title %}反馈中心 | 交通场景识别平台{% endblock %}
 
 {% block content %}
 <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
     <div>
-        <span class="badge soft-badge mb-2">Feedback</span>
-        <h1 class="h2 mb-1">反馈列表</h1>
+        <span class="badge soft-badge mb-2">反馈中心</span>
+        <h1 class="h2 mb-1">问题反馈与处理</h1>
         <p class="text-secondary mb-0">
             {% if request.user.is_staff %}
-                当前显示全部反馈，并支持状态处理。
+                左侧查看全部反馈记录，右侧可补充新的问题说明或进行协同测试。
             {% else %}
-                当前显示你提交过的反馈记录。
+                左侧查看历史反馈，右侧可继续提交新的问题或建议。
             {% endif %}
         </p>
     </div>
-    <a class="btn btn-dark" href="{% url 'feedback:create' %}">提交反馈</a>
 </div>
 
-<div class="section-shell">
-    {% if feedback_entries %}
-        <div class="vstack gap-3">
-            {% for item in feedback_entries %}
-                <a class="announcement-link" href="{% url 'feedback:detail' item.pk %}">
-                    <div class="announcement-card">
-                        <div class="d-flex justify-content-between align-items-start gap-3">
-                            <div>
-                                <h2 class="h5 mb-1">{{ item.name }} / {{ item.category }}</h2>
-                                <p class="text-secondary mb-2">{{ item.message|truncatechars:120 }}</p>
-                                <span class="small text-secondary">{{ item.created_at|date:"Y-m-d H:i" }}</span>
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="section-shell">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="h4 mb-0">历史记录</h2>
+                <a class="btn btn-sm btn-outline-dark" href="{% url 'feedback:create' %}">单独反馈页</a>
+            </div>
+            {% if feedback_entries %}
+                <div class="vstack gap-3">
+                    {% for item in feedback_entries %}
+                        <a class="announcement-link" href="{% url 'feedback:detail' item.pk %}">
+                            <div class="announcement-card">
+                                <div class="d-flex justify-content-between align-items-start gap-3">
+                                    <div>
+                                        <h2 class="h5 mb-1">{{ item.name }} / {{ item.category }}</h2>
+                                        <p class="text-secondary mb-2">{{ item.message|truncatechars:120 }}</p>
+                                        <span class="small text-secondary">{{ item.created_at|date:"Y-m-d H:i" }}</span>
+                                    </div>
+                                    <span class="badge text-bg-light">{{ item.get_status_display }}</span>
+                                </div>
                             </div>
-                            <span class="badge text-bg-light">{{ item.get_status_display }}</span>
-                        </div>
-                    </div>
-                </a>
-            {% endfor %}
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p class="mb-0">暂无反馈记录。</p>
+                </div>
+            {% endif %}
         </div>
-    {% else %}
-        <div class="empty-state">
-            <p class="mb-0">暂无反馈记录。</p>
+    </div>
+    <div class="col-lg-5">
+        <div class="section-shell">
+            <h2 class="h4 mb-3">提交反馈</h2>
+            <form
+                method="post"
+                action="{% url 'feedback:create' %}"
+                hx-post="{% url 'feedback:create' %}"
+                hx-target="#feedback-result"
+                hx-swap="innerHTML">
+                {% csrf_token %}
+                {{ feedback_form.as_p }}
+                <button type="submit" class="btn btn-dark">提交反馈</button>
+            </form>
+            <div id="feedback-result" class="mt-3"></div>
         </div>
-    {% endif %}
+    </div>
 </div>
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Security | AeroVision{% endblock %}
+{% block title %}安全设置 | 交通场景识别平台{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
@@ -9,7 +9,7 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <h1 class="h3 mb-1">安全设置</h1>
-                    <p class="text-secondary mb-0">这里先提供密码修改入口，后续可以继续扩展二次验证和登录记录。</p>
+                    <p class="text-secondary mb-0">这里提供密码修改入口，后续可继续扩展登录保护和验证方式。</p>
                 </div>
                 <a class="btn btn-outline-dark" href="{% url 'accounts:profile' %}">返回个人中心</a>
             </div>

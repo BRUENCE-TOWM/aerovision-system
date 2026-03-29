@@ -1,21 +1,20 @@
 {% extends "base.html" %}
 
-{% block title %}About | AeroVision{% endblock %}
+{% block title %}平台介绍 | 交通场景识别平台{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-lg-8">
         <div class="section-shell">
-            <span class="badge soft-badge mb-2">About</span>
-            <h1 class="h2 mb-3">关于项目</h1>
+            <span class="badge soft-badge mb-2">平台介绍</span>
+            <h1 class="h2 mb-3">关于平台</h1>
             <p class="text-secondary">
-                AeroVision 目前采用 Django 作为主框架，以服务端模板渲染为主，Bootstrap 统一页面风格，
-                htmx 只用于少量局部交互增强。
+                本平台围绕交通场景图像识别展开建设，重点服务于道路环境分析、交通目标检测、识别结果展示和任务管理。
             </p>
             <ul class="soft-list">
-                <li>核心模块包含首页、账户、公告、反馈、文件管理。</li>
-                <li>页面先满足可访问、可管理、可继续扩展。</li>
-                <li>后续可以继续接入模型推理、任务流和权限细分。</li>
+                <li>以图像识别模型为核心能力，支持交通场景任务上传与处理。</li>
+                <li>以服务端页面渲染为主，确保页面稳定、清晰、易维护。</li>
+                <li>为后续接入更复杂的识别模型、结果分析与权限管理预留扩展能力。</li>
             </ul>
         </div>
     </div>

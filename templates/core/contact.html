@@ -1,30 +1,30 @@
 {% extends "base.html" %}
 
-{% block title %}Contact | AeroVision{% endblock %}
+{% block title %}联系支持 | 交通场景识别平台{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-lg-8">
         <div class="section-shell">
-            <span class="badge soft-badge mb-2">Contact</span>
+            <span class="badge soft-badge mb-2">联系支持</span>
             <h1 class="h2 mb-3">联系信息</h1>
             <div class="row g-3">
                 <div class="col-md-4">
                     <div class="metric-card">
-                        <span class="metric-label">邮箱</span>
-                        <strong>support@example.com</strong>
+                        <span class="metric-label">支持邮箱</span>
+                        <strong>平台管理员邮箱</strong>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="metric-card">
-                        <span class="metric-label">工作时间</span>
-                        <strong>09:00-18:00</strong>
+                        <span class="metric-label">服务时间</span>
+                        <strong>工作日 09:00-18:00</strong>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="metric-card">
-                        <span class="metric-label">反馈入口</span>
-                        <strong><a href="{% url 'feedback:create' %}">提交反馈</a></strong>
+                        <span class="metric-label">问题反馈</span>
+                        <strong><a href="{% url 'feedback:create' %}">前往提交反馈</a></strong>
                     </div>
                 </div>
             </div>

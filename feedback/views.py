@@ -15,14 +15,10 @@ class FeedbackCreateView(FormView):
 
     def form_valid(self, form):
         entry = form.save(commit=False)
-        # Authenticated feedback keeps an explicit owner link; anonymous
-        # submissions remain valid for public contact scenarios.
         if self.request.user.is_authenticated:
             entry.created_by = self.request.user
         entry.save()
         messages.success(self.request, "反馈已提交，我们会尽快处理。")
-        # Embedded htmx forms expect a ready-made HTML fragment instead of a
-        # redirect response.
         if self.request.headers.get("HX-Request") == "true":
             return HttpResponse('<div class="alert alert-success soft-alert mb-0">反馈已提交，我们会尽快处理。</div>')
         return super().form_valid(form)
@@ -36,11 +32,14 @@ class FeedbackListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        # Staff sees the full processing queue; regular users only see their
-        # own submissions.
         if user.is_staff:
             return FeedbackEntry.objects.all()
         return FeedbackEntry.objects.filter(created_by=user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["feedback_form"] = FeedbackForm()
+        return context
 
 
 class FeedbackDetailView(LoginRequiredMixin, DetailView):
@@ -50,8 +49,6 @@ class FeedbackDetailView(LoginRequiredMixin, DetailView):
 
     def get_queryset(self):
         user = self.request.user
-        # Detail permissions mirror the list permissions so ids cannot be used
-        # to inspect another user's feedback.
         if user.is_staff:
             return FeedbackEntry.objects.all()
         return FeedbackEntry.objects.filter(created_by=user)
@@ -64,7 +61,6 @@ class FeedbackStatusUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVi
     success_url = reverse_lazy("feedback:index")
 
     def test_func(self):
-        # Only operators are allowed to move feedback through processing states.
         return self.request.user.is_staff
 
     def form_valid(self, form):

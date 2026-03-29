@@ -1,6 +1,7 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.conf import settings
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, FormView, ListView
 
@@ -15,16 +16,29 @@ class UploadIndexView(LoginRequiredMixin, ListView):
     paginate_by = 8
 
     def get_queryset(self):
-        return UploadAsset.objects.filter(owner=self.request.user)
+        queryset = UploadAsset.objects.filter(owner=self.request.user)
+        keyword = self.request.GET.get("q", "").strip()
+        status = self.request.GET.get("status", "").strip()
+
+        if keyword:
+            queryset = queryset.filter(Q(title__icontains=keyword) | Q(description__icontains=keyword))
+        if status:
+            queryset = queryset.filter(status=status)
+        return queryset
 
     def get_context_data(self, **kwargs):
-        queryset = self.get_queryset()
+        queryset = UploadAsset.objects.filter(owner=self.request.user)
         context = super().get_context_data(**kwargs)
         context["status_counts"] = [
-            {"label": "总文件", "value": queryset.count()},
+            {"label": "全部任务", "value": queryset.count()},
             {"label": "处理中", "value": queryset.filter(status=UploadAsset.STATUS_PROCESSING).count()},
             {"label": "已归档", "value": queryset.filter(status=UploadAsset.STATUS_ARCHIVED).count()},
         ]
+        context["filter_values"] = {
+            "q": self.request.GET.get("q", "").strip(),
+            "status": self.request.GET.get("status", "").strip(),
+        }
+        context["status_choices"] = UploadAsset.STATUS_CHOICES
         return context
 
 
@@ -38,7 +52,7 @@ class UploadCreateView(LoginRequiredMixin, FormView):
         upload.owner = self.request.user
         upload.status = UploadAsset.STATUS_UPLOADED
         upload.save()
-        messages.success(self.request, "文件已上传并进入管理列表。")
+        messages.success(self.request, "识别任务已创建，现已进入任务列表。")
         return super().form_valid(form)
 
 

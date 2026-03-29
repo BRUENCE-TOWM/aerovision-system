@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}Home | AeroVision{% endblock %}
+{% block title %}首页 | 交通场景识别平台{% endblock %}
 
 {% block content %}
 <section class="p-5 rounded-5 hero-panel mb-5">
     <div class="row align-items-center g-4">
         <div class="col-lg-7">
-            <span class="badge soft-badge mb-3">Django + Templates + Bootstrap + htmx</span>
-            <h1 class="display-5 fw-bold">以 Python 为主导的可管理站点骨架</h1>
+            <span class="badge soft-badge mb-3">简单上传，快速查看</span>
+            <h1 class="display-5 fw-bold">欢迎使用交通场景识别平台</h1>
             <p class="lead text-secondary">
-                当前首页承接站点入口、模块导览和最新公告，整体保持简约、温和、可扩展的交互风格。
+                这里可以帮助你上传图片、查看识别结果，并了解平台最新通知。页面入口已经为常用操作整理好，首次使用也能快速找到对应位置。
             </p>
             <div class="d-flex flex-wrap gap-2">
-                <a class="btn btn-dark" href="{% url 'dashboard:index' %}">进入 Dashboard</a>
-                <a class="btn btn-outline-dark" href="{% url 'accounts:signup' %}">创建账户</a>
+                <a class="btn btn-dark" href="{% url 'uploads:index' %}">开始使用</a>
+                <a class="btn btn-outline-dark" href="{% url 'accounts:signup' %}">注册账号</a>
                 <a class="btn btn-outline-dark" href="{% url 'announcement:index' %}">查看公告</a>
             </div>
             <div class="row g-3 mt-4">
@@ -25,14 +25,14 @@
                 </div>
                 <div class="col-sm-6 col-lg-4">
                     <div class="metric-card">
-                        <span class="metric-label">文件记录</span>
+                        <span class="metric-label">任务记录</span>
                         <strong>{{ public_stats.upload_count }}</strong>
                     </div>
                 </div>
                 <div class="col-sm-6 col-lg-4">
                     <div class="metric-card">
-                        <span class="metric-label">站点风格</span>
-                        <strong>简约温和</strong>
+                        <span class="metric-label">使用方式</span>
+                        <strong>上传并查看</strong>
                     </div>
                 </div>
             </div>
@@ -47,36 +47,36 @@
     <div class="col-md-6 col-xl-3">
         <div class="card border-0 shadow-sm h-100 feature-card">
             <div class="card-body">
-                <h2 class="h5">账户系统</h2>
-                <p class="text-secondary">注册、登录、资料维护与个人中心入口。</p>
-                <a class="link-dark" href="{% url 'accounts:profile' %}">查看个人中心</a>
+                <h2 class="h5">上传任务</h2>
+                <p class="text-secondary">上传图片后，可以在这里查看处理状态和结果。</p>
+                <a class="link-dark" href="{% url 'uploads:index' %}">进入任务页</a>
             </div>
         </div>
     </div>
     <div class="col-md-6 col-xl-3">
         <div class="card border-0 shadow-sm h-100 feature-card">
             <div class="card-body">
-                <h2 class="h5">工作台</h2>
-                <p class="text-secondary">集中展示上传、公告、反馈等模块摘要。</p>
-                <a class="link-dark" href="{% url 'dashboard:index' %}">进入工作台</a>
+                <h2 class="h5">查看公告</h2>
+                <p class="text-secondary">平台更新、使用提醒和通知都会在这里发布。</p>
+                <a class="link-dark" href="{% url 'announcement:index' %}">前往公告中心</a>
             </div>
         </div>
     </div>
     <div class="col-md-6 col-xl-3">
         <div class="card border-0 shadow-sm h-100 feature-card">
             <div class="card-body">
-                <h2 class="h5">公告反馈</h2>
-                <p class="text-secondary">公告独立展示，反馈单独收集和处理。</p>
-                <a class="link-dark" href="{% url 'announcement:index' %}">打开公告模块</a>
+                <h2 class="h5">进入工作台</h2>
+                <p class="text-secondary">常用入口和最近动态会集中显示在工作台中。</p>
+                <a class="link-dark" href="{% url 'dashboard:index' %}">打开工作台</a>
             </div>
         </div>
     </div>
     <div class="col-md-6 col-xl-3">
         <div class="card border-0 shadow-sm h-100 feature-card">
             <div class="card-body">
-                <h2 class="h5">文件管理</h2>
-                <p class="text-secondary">上传、列表、详情与后续状态追踪骨架。</p>
-                <a class="link-dark" href="{% url 'uploads:index' %}">查看文件管理</a>
+                <h2 class="h5">提交反馈</h2>
+                <p class="text-secondary">如果使用中遇到问题，可以随时留言反馈。</p>
+                <a class="link-dark" href="{% url 'feedback:index' %}">前往反馈中心</a>
             </div>
         </div>
     </div>
@@ -107,19 +107,19 @@
                 </div>
             {% else %}
                 <div class="empty-state">
-                    <p class="mb-0">暂无已发布公告。你可以先在后台添加内容。</p>
+                    <p class="mb-0">当前暂无公告，你可以稍后再来查看最新通知。</p>
                 </div>
             {% endif %}
         </div>
     </div>
     <div class="col-lg-5">
         <div class="section-shell h-100">
-            <h2 class="h4 mb-3">站点说明</h2>
+            <h2 class="h4 mb-3">使用说明</h2>
             <ul class="soft-list">
-                <li>首页承接站点介绍和模块入口。</li>
-                <li>注册登录与资料维护基于 Django Auth。</li>
-                <li>公告、反馈、文件记录均已预留后台管理能力。</li>
-                <li>局部交互由 htmx 增强，不引入重前端框架。</li>
+                <li>如果你是第一次使用，可以先注册或直接登录。</li>
+                <li>进入任务页后即可上传图片并查看处理进度。</li>
+                <li>想了解平台动态，可以从公告中心进入。</li>
+                <li>遇到问题时，可通过反馈中心提交说明。</li>
             </ul>
         </div>
     </div>

@@ -1,15 +1,45 @@
 {% extends "base.html" %}
 
-{% block title %}Uploads | AeroVision{% endblock %}
+{% block title %}我的文件 | 交通场景识别平台{% endblock %}
 
 {% block content %}
 <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
     <div>
-        <span class="badge soft-badge mb-2">File Management</span>
-        <h1 class="h2 mb-1">文件管理</h1>
-        <p class="text-secondary mb-0">管理上传记录、查看状态，并为后续模型处理结果留出位置。</p>
+        <span class="badge soft-badge mb-2">我的文件</span>
+        <h1 class="h2 mb-1">识别任务管理</h1>
+        <p class="text-secondary mb-0">这里集中处理上传、搜索、筛选和任务列表展示，是后续模型接入的基础页面。</p>
     </div>
-    <a class="btn btn-dark" href="{% url 'uploads:create' %}">新建上传</a>
+    <a class="btn btn-dark" href="{% url 'uploads:create' %}">上传新任务</a>
+</div>
+
+<div class="section-shell mb-4">
+    <form method="get" class="row g-3 align-items-end">
+        <div class="col-md-5">
+            <label class="form-label" for="search-keyword">搜索任务</label>
+            <input
+                id="search-keyword"
+                type="text"
+                name="q"
+                value="{{ filter_values.q }}"
+                class="form-control"
+                placeholder="按任务标题或说明搜索">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="status-filter">筛选状态</label>
+            <select id="status-filter" name="status" class="form-select">
+                <option value="">全部状态</option>
+                {% for value, label in status_choices %}
+                    <option value="{{ value }}" {% if filter_values.status == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-dark">应用筛选</button>
+                <a class="btn btn-outline-dark" href="{% url 'uploads:index' %}">清空条件</a>
+            </div>
+        </div>
+    </form>
 </div>
 
 <div class="row g-3 mb-4">
@@ -37,8 +67,8 @@
                                 </div>
                                 <span class="badge text-bg-light">{{ item.get_status_display }}</span>
                             </div>
-                            <p class="text-secondary">{{ item.description|default:"暂无描述。" }}</p>
-                            <a class="btn btn-sm btn-outline-dark" href="{% url 'uploads:detail' item.pk %}">查看详情</a>
+                            <p class="text-secondary">{{ item.description|default:"暂无任务说明。" }}</p>
+                            <a class="btn btn-sm btn-outline-dark" href="{% url 'uploads:detail' item.pk %}">查看任务详情</a>
                         </div>
                     </div>
                 </div>
@@ -46,8 +76,8 @@
         </div>
     {% else %}
         <div class="empty-state">
-            <p class="mb-3">目前还没有文件记录。</p>
-            <a class="btn btn-dark btn-sm" href="{% url 'uploads:create' %}">上传首个文件</a>
+            <p class="mb-3">当前没有符合条件的识别任务。</p>
+            <a class="btn btn-dark btn-sm" href="{% url 'uploads:create' %}">上传首个任务</a>
         </div>
     {% endif %}
 </div>
